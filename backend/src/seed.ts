@@ -118,11 +118,11 @@ const sampleData = [
 async function main() {
   console.log('🌱 Starting seed...');
 
-  for (const item of sampleData) {
-    await prisma.media.create({
-      data: item
-    });
-  }
+  // for (const item of sampleData) {
+  //   await prisma.media.create({
+  //     data: item
+  //   });
+  // }
 
   console.log('✅ Seed completed successfully!');
 }
