@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  media     Media[]
+
+  @@index([email])
+  @@map("users")
+}
+
+model Media {
+  id          Int       @id @default(autoincrement())
+  title       String    @db.VarChar(255)
+  type        MediaType
+  director    String    @db.VarChar(255)
+  budget      Float
+  location    String    @db.VarChar(255)
+  duration    Int       // Duration in minutes
+  year        Int
+  description String?   @db.Text
+  imageUrl    String?   @db.VarChar(500)
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([type])
+  @@index([title])
+  @@index([year])
+  @@index([userId])
+  @@map("media")
+}
+
+enum MediaType {
+  MOVIE
+  TV_SHOW
+}
